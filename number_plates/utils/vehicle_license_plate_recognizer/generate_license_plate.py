@@ -66,7 +66,7 @@ NUMBERS = "0123456789"
 LAST_LETTER = "ABCEHIKMOPTX"
 
 
-def generate_random_vehicle_license_plate():
+def generate_random_license_plate_vehicle():
     random_first_letters = random.choice(FIRST_LETTER)
     random_numbers = "".join(random.choice(NUMBERS) for _ in range(4))
     random_last_letters = "".join(random.choice(LAST_LETTER) for _ in range(2))
@@ -76,7 +76,7 @@ def generate_random_vehicle_license_plate():
 
 # def get_image_random_vehicle_license_plate():
 
-#     result = generate_random_vehicle_license_plate()
+#     result = generate_random_license_plate_vehicle()
 
 #     # Load the image
 #     img = Image.open("license_plate_ua.png")

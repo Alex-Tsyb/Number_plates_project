@@ -5,7 +5,7 @@ import numpy as np
 from pathlib import Path
 
 # !!!! Temp for testing
-from .generate_license_plate import generate_random_vehicle_license_plate
+from .generate_license_plate import generate_random_license_plate_vehicle
 
 
 model_path = Path(__file__).parent / "model"
@@ -153,11 +153,11 @@ def segment_characters(image):
 
 
 # !!!!! TEMP image_path maybe None
-def get_vehicle_license_plate(image_path=None) -> str:
+def get_license_plate_vehicle(image_path=None) -> str:
 
-    return generate_random_vehicle_license_plate()
+    return generate_random_license_plate_vehicle()
 
 
 if __name__ == "__main__":
     print("Hello, I am recognizer license plate")
-    print(get_vehicle_license_plate())
+    print(get_license_plate_vehicle())
