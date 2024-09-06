@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from settings import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,11 +77,16 @@ WSGI_APPLICATION = 'number_plates.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb',
-        'USER': 'root',
-        'PASSWORD': 'changeme',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        # 'NAME': "parking_service",
+        # 'USER': "postgres",
+        # 'PASSWORD':  "secret",
+        # 'HOST': "localhost",
+        # 'PORT': "5432",
+        'NAME': settings.django_database_db_name,
+        'USER': settings.django_database_user,
+        'PASSWORD':  settings.django_database_password,
+        'HOST': settings.django_database_host,
+        'PORT': settings.django_database_port,
     }
 }
 
