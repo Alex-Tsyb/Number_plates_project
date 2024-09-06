@@ -1,6 +1,6 @@
-# import cv2
-# import matplotlib.pyplot as plt
-# import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 from pathlib import Path
 
@@ -9,6 +9,31 @@ from generate_license_plate import generate_random_vehicle_license_plate
 
 
 model_path = Path(__file__).parent / "model"
+
+
+def resize_image(image, width=None, height=None):
+    pass
+
+    # # Get the original image dimensions
+    # h, w = image.shape[:2]
+
+    # # Calculate the aspect ratio
+    # aspect_ratio = w / h
+
+    # if width is None:
+    #     # Calculate height based on the specified width
+    #     new_height = int(height / aspect_ratio)
+    #     resized_image = cv2.resize(image, (height, new_height))
+    # else:
+    #     # Calculate width based on the specified height
+    #     new_width = int(width * aspect_ratio)
+    #     resized_image = cv2.resize(image, (new_width, width))
+
+    # return resized_image
+
+
+def rotate_image(image, angle):
+    pass
 
 
 # Match contours to license plate or character template
