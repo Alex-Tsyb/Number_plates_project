@@ -4,13 +4,10 @@ services:
   db:
     image: postgres:16.1
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: changeme
-      POSTGRES_DB: mydb
-      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: ${DJANGO_DATABASE_USER}
+      POSTGRES_PASSWORD: ${DJANGO_DATABASE_PASSWORD}
+      POSTGRES_DB: ${DJANGO_DATABASE_DB_NAME}
     ports:
-      - 5432:5432
+      - ${DJANGO_DATABASE_PORT}:5432
     volumes:
-      - type: bind
-        source: ./bd_data
-        target: /var/lib/postgresql/data
+      - ./.postgres-data:/var/lib/postgresql/data
