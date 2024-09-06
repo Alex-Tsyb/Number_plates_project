@@ -5,7 +5,7 @@ import numpy as np
 from pathlib import Path
 
 # !!!! Temp for testing
-from generate_license_plate import generate_random_vehicle_license_plate
+from .generate_license_plate import generate_random_vehicle_license_plate
 
 
 model_path = Path(__file__).parent / "model"

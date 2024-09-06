@@ -1,0 +1,1 @@
+from .vehicle_license_plate_recognizer.recognizer import get_vehicle_license_plate
