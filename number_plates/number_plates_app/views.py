@@ -3,6 +3,9 @@ from django.contrib.auth import login
 from .forms import CustomUserCreationForm
 from .models import Car, CustomUser
 
+def index(request):
+    return render(request, 'number_plates_app/index.html')
+
 def user_parking_info(request):
     user_cars = Car.objects.filter(user=request.user)
     return render(request, 'user_parking_info.html', {'user_cars': user_cars})
