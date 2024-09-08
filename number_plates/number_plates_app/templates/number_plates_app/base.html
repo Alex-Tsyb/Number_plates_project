@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
     {% load static %}
     <link rel="stylesheet" href="{% static 'number_plates_app/style.css' %}">
+    <link rel="stylesheet" href="{% static 'number_plates_app/main.css' %}">
 </head>
 <body>
 <main class="container">
-    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+    <nav class="nav">
         <ul>
             <li><a href="#" role="button">Головна</a></li>
             <li><a href="#" role="button">Тарифи</a></li>
@@ -18,6 +19,10 @@
             <li><a href="#" role="button">Контакти</a></li>
         </ul>
     </nav>
+    <div class="baner-home">
+        <a href="/"><img src="{% static 'number_plates_app/images/background_video_new.jpg'%}" alt="img-fluid"></a>
+    </div>
+    <div>
     {% block content %} {% endblock %}
 </main>
 </body>
