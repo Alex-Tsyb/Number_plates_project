@@ -1,0 +1,21 @@
+/* Custom page CSS */
+body {
+    font-family: sans-serif;
+  }
+  
+  .container{
+    margin-bottom: 130px;
+  }
+
+  .nav{
+    margin-bottom: 20px;
+    border-bottom: 2px solid; 
+    padding-left: 30px
+  }
+
+  .banner-home{
+    min-height: 278px;
+    width: 100%;
+    background: url(../number_plates_app/images/background_video_new.jpg);
+    background-position: center;
+  }
