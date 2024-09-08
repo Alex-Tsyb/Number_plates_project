@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm
-from .models import Car, CustomUser
+from .models import Car, CustomUser, generate_admin_statistics
+
 
 def index(request):
     return render(request, 'number_plates_app/index.html')
@@ -29,3 +30,7 @@ def register(request):
         form = CustomUserCreationForm()
 
     return render(request, 'number_plates_app/register.html', {'form': form})
+
+def admin_dashboard(request):
+    stats = generate_admin_statistics()
+    return render(request, 'admin_dashboard.html', {'stats': stats})
