@@ -14,7 +14,7 @@
         <div class="user-menu">
             <nav class="nav">
                 <ul>
-                    <li><a href="#" role="button">Головна</a></li>
+                    <li><a href="/" role="button">Головна</a></li>
                     <li><a href="#" role="button">Тарифи</a></li>
                     <li><a href="#" role="button">Правила</a></li>
                     <li><a href="#" role="button">Схема проїзду</a></li>
@@ -22,28 +22,41 @@
                 </ul>
             </nav>
         </div>
-        {% if user.is_authenticated %}
-        <div class="user-login-menu">
-            <ul>
-                <li>Welcome <b>{{ user.username }}!</b></li>
-                <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
-            </ul>
-        </div>
-        {% else %}
-        <div class="user-menu">
-            <div class="user-login-menu">
-                <ul>
-                    <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
-                    <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
-                </ul>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="banner-home">
+                <img src="{% static 'number_plates_app/images/background_video_new.jpg'%}" alt="img-fluid" class="background-img">
+                
+                <div class="banner-text">
+                    {% if user.is_authenticated %}
+                    <div >
+                        <ul>
+                            <li>Welcome <b>{{ user.username }}!</b></li>
+                            <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <div class="auth-container">
+                        <div>
+                            <ul>
+                                <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
+                                <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
+                            </ul>
+                        </div>
+                    </div> 
+                    {% endif %} 
+                </div>
+                
             </div>
         </div>
-        {% endif %} 
     </div>
-    <div class="baner-home">
-        <a href="/"><img src="{% static 'number_plates_app/images/background_video_new.jpg'%}" alt="img-fluid"></a>
-    </div>
-    <div>
+    
+
+
+
     {% block content %} {% endblock %}
 </main>
 </body>
