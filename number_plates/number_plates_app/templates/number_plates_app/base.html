@@ -32,7 +32,7 @@
                 
                 <div class="banner-text">
                     {% if user.is_authenticated %}
-                    <div >
+                    <div class="h1">
                         <ul>
                             <li>Welcome <b>{{ user.username }}!</b></li>
                             <li><a href="{% url 'users:logout' %}" role="button">Logout</a></li>
