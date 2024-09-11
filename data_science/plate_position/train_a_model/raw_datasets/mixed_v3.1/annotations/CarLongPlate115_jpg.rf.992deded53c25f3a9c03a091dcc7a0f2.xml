@@ -1,0 +1,27 @@
+<annotation>
+	<folder></folder>
+	<filename>CarLongPlate115_jpg.rf.992deded53c25f3a9c03a091dcc7a0f2.jpg</filename>
+	<path>CarLongPlate115_jpg.rf.992deded53c25f3a9c03a091dcc7a0f2.jpg</path>
+	<source>
+		<database>roboflow.ai</database>
+	</source>
+	<size>
+		<width>472</width>
+		<height>303</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>License_Plate</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<occluded>0</occluded>
+		<bndbox>
+			<xmin>241</xmin>
+			<xmax>347</xmax>
+			<ymin>218</ymin>
+			<ymax>247</ymax>
+		</bndbox>
+	</object>
+</annotation>
