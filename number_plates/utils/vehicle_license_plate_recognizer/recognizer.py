@@ -12,7 +12,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 # !!!! Temp for testing
-from generate_license_plate import generate_random_license_plate_vehicle
+from .generate_license_plate import generate_random_license_plate_vehicle
 
 
 model_path = Path(__file__).parent / "model"
@@ -21,9 +21,9 @@ plate_cascade = cv2.CascadeClassifier(
     model_path / "haarcascade_russian_plate_number.xml"
 )
 
-defailt_model = load_model(
-    model_path / "model_use_ai_based_indian_plate_detection.keras"
-)
+MODEL_FILE_NAME = "model_use_ai_based_indian_plate_detection_other.keras"
+
+defailt_model = load_model(model_path / MODEL_FILE_NAME)
 
 
 def resize_image(image, width=None, height=None):
@@ -112,8 +112,6 @@ def find_contours(dimensions: list, img, debug=False):
             # if debug:
             #     plt.imshow(ii, cmap="gray")
 
-            
-
             #  Make result formatted for classification: invert colors
             char = cv2.subtract(255, char)
 
@@ -133,7 +131,7 @@ def find_contours(dimensions: list, img, debug=False):
 
     # show_image = Image.fromarray(ii)
     # show_image.show()
-    
+
     # if debug:
     #     plt.axis("off")
     #     plt.show()
@@ -368,14 +366,14 @@ if __name__ == "__main__":
     # Empty license plate
     print(get_license_plate_vehicle())
 
-    # Correct license plate
-    print(
-        get_license_plate_vehicle(
-            "d:/project_GoIT/Python/Python/DS-Team/Project-Team/data_science/image_vehile/real_image/BH 6860 PT.jpg"
-        )
-    ) 
-    print(
-        get_license_plate_vehicle(
-            "d:/project_GoIT/Python/Python/DS-Team/Project-Team/data_science/image_vehile/05 BAVAREC.jpg"
-        )
+    # TEST
+    test_img_path = (
+        Path(__file__).parent.parent.parent.parent / "data_science/image_vehile"
     )
+
+    # Correct license plate
+    print(get_license_plate_vehicle(test_img_path / "KA 0743 MA.jpg"))
+    print(get_license_plate_vehicle(test_img_path / "05 BAVAREC.jpg"))
+    print(get_license_plate_vehicle(test_img_path / "16 399-79 OE.jpg"))
+    print(get_license_plate_vehicle(test_img_path / "KA 2342 IC.jpg"))
+    print(get_license_plate_vehicle(test_img_path / "04 256-78 AH.jpg"))
