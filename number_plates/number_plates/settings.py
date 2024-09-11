@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'number_plates_app',
     'users',
+    'payments',
 ]
 
 MIDDLEWARE = [
