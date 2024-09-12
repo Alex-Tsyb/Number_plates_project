@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 
 from .forms import RegisterForm, LoginForm
 
+def menu(request):
+    return render(request, 'users/menu.html')
 
 def signupuser(request):
     if request.user.is_authenticated:

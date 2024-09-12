@@ -34,6 +34,7 @@
                     {% if user.is_authenticated %}
                     <div class="h1">
                         <h3>Welcome <b>{{ user.username }}!</b></h3>
+                        <h2><a href="{% url 'users:menu' %}" role="button">Menu</a></h2>
                         <h2><a href="{% url 'users:logout' %}" role="button">Logout</a></h2>
                     </div>
                     {% else %}
