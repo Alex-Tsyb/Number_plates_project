@@ -7,6 +7,12 @@ from .models import Car, CustomUser, generate_admin_statistics
 def index(request):
     return render(request, 'number_plates_app/index.html')
 
+def tarif(request):
+    return render(request, 'number_plates_app/tarif.html')
+
+def rules(request):
+    return render(request, 'number_plates_app/rules.html')
+
 def user_parking_info(request):
     user_cars = Car.objects.filter(user=request.user)
     return render(request, 'user_parking_info.html', {'user_cars': user_cars})

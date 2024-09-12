@@ -103,3 +103,51 @@ body {
     color: #fff;
     font-size: 18px;
 }
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.row-home-text {
+    margin-bottom: 60px;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 26px;
+    text-align: justify;
+}
+
+#slideshow0 {
+    margin-bottom: 20px;
+}
+
+.owl-carousel.owl-loaded {
+    display: block;
+}
+
+.owl-carousel {
+    display: none;
+    width: 100%;
+    z-index: 1;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+.owl-carousel .owl-stage {
+    position: relative;
+    touch-action: manipulation;
+
+}
+element.style {
+    width: 269.667px;
+}
+
+.owl-carousel .owl-item {
+    min-height: 1px;
+    float: left;
+}
+
+.item {
+    background-color: #000;
+}

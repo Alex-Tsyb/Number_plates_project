@@ -15,8 +15,8 @@
             <nav class="nav">
                 <ul>
                     <li><a href="/" role="button">Головна</a></li>
-                    <li><a href="#" role="button">Тарифи</a></li>
-                    <li><a href="#" role="button">Правила</a></li>
+                    <li><a href="tarif/" role="button">Тарифи</a></li>
+                    <li><a href="rules/" role="button">Правила</a></li>
                     <li><a href="#" role="button">Схема проїзду</a></li>
                     <li><a href="#" role="button">Контакти</a></li>
                 </ul>
@@ -39,10 +39,8 @@
                     {% else %}
                     <div class="auth-container">
                         <div>
-                            <ul>
-                                <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
-                                <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
-                            </ul>
+                            <h4><a href="{% url 'users:signup' %}" role="button">Sign Up</a></h4>
+                            <h4><a href="{% url 'users:login' %}" role="button">Login</a></h4>
                         </div>
                     </div> 
                     {% endif %} 
@@ -51,11 +49,22 @@
             </div>
         </div>
     </div>
-    
-
-
-
     {% block content %} {% endblock %}
 </main>
+<footer class="container">
+    <div class="row">
+        <div class="user-menu">
+            <nav class="nav">
+                <ul class="list-unstyled">
+                    <li><a href="/">Головна</a></li>
+                    <li><a href="#">Тарифи</a></li>
+                    <li><a href="#">Правила</a></li>
+                    <li><a href="#">Схема проїзду</a></li>
+                    <li><a href="#">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
