@@ -14,13 +14,12 @@ os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
 current_path = Path(__file__).parent
 
-plate_classifier = cv2.CascadeClassifier(
-    current_path / "haarcascade_plate_number.xml"
-)
+plate_classifier = cv2.CascadeClassifier(current_path / "haarcascade_plate_number.xml")
 
 MODEL_FILE_NAME = "model_use_ai_based_indian_plate_detection_other.keras"
 
 default_model = load_model(current_path / MODEL_FILE_NAME)
+
 
 def resize_image(image, width=None, height=None):
 
@@ -47,9 +46,12 @@ def extract_plate(image):
     plate_img = resize_image(image, width=460)
     roi = plate_img.copy()
 
+    # plate_rects = plate_classifier.detectMultiScale(
+    #     plate_img, scaleFactor=1.05, minNeighbors=5, minSize=(12, 4), maxSize=(140, 50)
     plate_rects = plate_classifier.detectMultiScale(
-        plate_img, scaleFactor=1.05, minNeighbors=5, minSize=(12, 4), maxSize=(140, 50)
+        plate_img, scaleFactor=1.05, minNeighbors=5, #minSize=(12, 4), maxSize=(140, 50)
     )
+
 
     plate = None
 
@@ -162,7 +164,8 @@ def find_contours(dimensions: list, img, debug=False):
         )  # stores character images according to their index
     img_res = np.array(img_res_copy)
 
-    return img_res
+    return img_res, ii
+
 
 # Find characters in the resulting images
 def segment_characters(image):
@@ -198,15 +201,17 @@ def segment_characters(image):
     # show_image.show()
 
     # Get contours within cropped license plate
-    char_list = find_contours(dimensions, img_binary_lp)
+    char_list, countur_image = find_contours(dimensions, img_binary_lp)
 
-    return char_list, img_gray_lp
+    return char_list, countur_image
+
 
 def fix_dimension(img):
     new_img = np.zeros((28, 28, 3))
     for i in range(3):
         new_img[:, :, i] = img
     return new_img
+
 
 def predict_license_plate(characters_plate: list, model=None):
 
@@ -235,20 +240,27 @@ def get_license_plate_vehicle(image_path=None):
 
     image = cv2.imread(image_path)
 
-    image_with_detect_plate, license_plate = extract_plate(image)
+    if not image is None:
+        image_with_detect_plate, license_plate = extract_plate(image)
 
-    detected_plate_img = cv2.cvtColor(
-        cv2.resize(image_with_detect_plate, (image.shape[1], image.shape[0])),
-        cv2.COLOR_BGR2RGB,
-    )
+        detected_plate_img = cv2.cvtColor(
+            cv2.resize(image_with_detect_plate, (image.shape[1], image.shape[0])),
+            cv2.COLOR_BGR2RGB,
+        )  
+    else :
+        license_plate = None
+        detected_plate_img = None
 
+
+    license_plate_img = None
     detected_caracters = []
     predict_caracters = []
     license_plate_predict = ""
 
     if not license_plate is None:
-        detected_caracters, license_plate_img  = segment_characters(license_plate)
+        detected_caracters, license_plate_img = segment_characters(license_plate)
 
+        # license_plate_img = cv2.cvtColor(license_plate_img, cv2.COLOR_BGR2RGB)
         license_plate_predict, predict_caracters = predict_license_plate(
             detected_caracters
         )
