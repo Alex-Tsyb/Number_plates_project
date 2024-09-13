@@ -191,7 +191,7 @@ def select_folder():
 
 
 root = Tk()
-root.title("Licence Plate Viewer")
+root.title("License Plate Viewer")
 root.geometry("930x515")
 
 path_source = StringVar(
