@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
-
+from number_plates_app.models import CustomUser
 
 class RegisterForm(UserCreationForm):
     username = forms.CharField(max_length=100,
@@ -18,14 +17,16 @@ class RegisterForm(UserCreationForm):
     password2 = forms.CharField(max_length=50,
                                 required=True,
                                 widget=forms.PasswordInput())
+    license_plate = forms.CharField(max_length=20,
+                                    required=True, 
+                                    widget=forms.TextInput())
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        model = CustomUser
+        fields = ['username', 'email', 'password1', 'password2', 'license_plate']
 
 
 class LoginForm(AuthenticationForm):
 
-    class Meta:
-        model = User
-        fields = ['username', 'password']
+    username = forms.CharField(max_length=100, widget=forms.TextInput())
+    password = forms.CharField(widget=forms.PasswordInput())

@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
+    license_plate = models.CharField(max_length=20, blank=True, null=True)
 
     # Додаємо аргумент related_name для уникнення конфліктів
     groups = models.ManyToManyField(

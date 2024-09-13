@@ -5,7 +5,6 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-
 from .forms import RegisterForm, LoginForm
 
 def menu(request):
@@ -18,7 +17,9 @@ def signupuser(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.license_plate = form.cleaned_data['license_plate']
+            user.save()
             return redirect(to='number_plates_app:index')
         else:
             return render(request, 'users/signup.html', context={"form": form})
@@ -31,17 +32,24 @@ def loginuser(request):
         return redirect(to='number_plates_app:index')
 
     if request.method == 'POST':
-        user = authenticate(username=request.POST['username'],
-                            password=request.POST['password'])
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
 
-        if user is None:
-            messages.error(request, 'Username or password didn\'t match')
-            return redirect(to='users:login')
+            if user is not None:
+                login(request, user)
+                return redirect(to='number_plates_app:index')
+            else:
+                messages.error(request, 'Username or password didn\'t match')
+        else:
+            messages.error(request, 'Invalid form submission')
+    
+    else:
+        form = LoginForm()
 
-        login(request, user)
-        return redirect(to='number_plates_app:index')
-
-    return render(request, 'users/login.html', context={"form": LoginForm()})
+    return render(request, 'users/login.html', context={"form": form})
 
 
 @login_required
