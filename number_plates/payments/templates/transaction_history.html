@@ -1,0 +1,9 @@
+<h2>Transaction History</h2>
+<ul>
+    {% for transaction in transactions %}
+        <li>{{ transaction.created_at }} - {{ transaction.get_transaction_type_display }} ${{ transaction.amount }}</li>
+    {% empty %}
+        <li>No transactions yet.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'check_balance' %}">Back to balance</a>

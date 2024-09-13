@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Parking</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'number_plates_app/style.css' %}">
+    <link rel="stylesheet" href="{% static 'number_plates_app/main.css' %}">
+</head>
+<body>
+<h1>Hi in menu</h1>
+<a href="/" role="button">Головна</a>
+{% block content %} {% endblock %}
+</body>
+</html>
