@@ -15,10 +15,9 @@
             <nav class="nav">
                 <ul>
                     <li><a href="/" role="button">Головна</a></li>
-                    <li><a href="tarif/" role="button">Тарифи</a></li>
-                    <li><a href="rules/" role="button">Правила</a></li>
-                    <li><a href="#" role="button">Схема проїзду</a></li>
-                    <li><a href="#" role="button">Контакти</a></li>
+                    <li><a href="{% url 'number_plates_app:tarif' %}" role="button">Тарифи</a></li>
+                    <li><a href="{% url 'number_plates_app:rules' %}" role="button">Правила</a></li>
+                    <li><a href="{% url 'number_plates_app:contacts' %}" role="button">Контакти</a></li>
                 </ul>
             </nav>
         </div>

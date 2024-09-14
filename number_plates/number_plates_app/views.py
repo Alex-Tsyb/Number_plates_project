@@ -3,6 +3,8 @@ from django.contrib.auth import login
 from .forms import CustomUserCreationForm
 from .models import Car, CustomUser, generate_admin_statistics
 
+def contacts(request):
+    return render(request, 'number_plates_app/contacts.html')
 
 def index(request):
     return render(request, 'number_plates_app/index.html')
