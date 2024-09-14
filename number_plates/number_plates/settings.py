@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'number_plates_app',
+    
+    'number_plates_app',
     'users',
     'cars',
     'payments',
     'parking_sessions',
+    'parking_rates',
 ]
 
 MIDDLEWARE = [

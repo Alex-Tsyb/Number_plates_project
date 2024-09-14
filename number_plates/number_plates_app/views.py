@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import CustomUserCreationForm
-from .models import Car, CustomUser, generate_admin_statistics
+# from .forms import CustomUserCreationForm
+# from .models import Car, CustomUser, generate_admin_statistics
 
 
 def index(request):
