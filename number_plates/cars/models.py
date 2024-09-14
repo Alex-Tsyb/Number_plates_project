@@ -4,6 +4,7 @@ from django.db import models
 
 class Car(models.Model):
     license_plate = models.CharField(max_length=15)
+    # add new fields here
     blocked = models.BooleanField(default=False)
 
 

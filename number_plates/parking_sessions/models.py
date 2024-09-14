@@ -1,12 +1,14 @@
 from django.db import models
 from django.utils import timezone
 
+# from number_plates_app.models import ParkingPlace
 from cars.models import Car
 from parking_rates.models import ParkingRate
 
 
 # Модель для паркувальних сесій
 class ParkingSession(models.Model):
+    # parking_place = models.ForeignKey(ParkingPlace, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(null=True, blank=True)  # Якщо не завершено, поле порожнє
