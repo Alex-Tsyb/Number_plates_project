@@ -57,9 +57,9 @@
         <div class="user-menu">
             <nav class="nav">
                 <ul class="list-unstyled">
-                    <li><a href="/">Головна</a></li>
-                    <li><a href="#">Тарифи</a></li>
-                    <li><a href="#">Правила</a></li>
+                    <li><a href="{% url 'number_plates_app:index' %}">Головна</a></li>
+                    <li><a href="{% url 'number_plates_app:tarif' %}">Тарифи</a></li>
+                    <li><a href="{% url 'number_plates_app:rules' %}">Правила</a></li>
                     <li><a href="#">Схема проїзду</a></li>
                     <li><a href="#">Контакти</a></li>
                 </ul>

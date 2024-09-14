@@ -9,8 +9,24 @@
     <link rel="stylesheet" href="{% static 'number_plates_app/main.css' %}">
 </head>
 <body>
-<h1>Hi in menu</h1>
-<a href="/" role="button">Головна</a>
-{% block content %} {% endblock %}
+    <main class="container"></main>
+        <div class="menu-container">
+            <div class="user-menu">
+                <nav class="nav">
+                    <a href="/" role="button" class="primary">Головна</a>
+
+                    <h3><strong>Логін:</strong> {{ request.user.username }}</h3>
+        
+                    <h3><strong>Email:</strong> {{ request.user.email }}</h3>
+        
+                    <h3><strong>Номер машини:</strong> {{ request.user.license_plate }}</h3>
+        
+                    <a href="{% url 'users:password_reset' %}" role="button" class="secondary">Змінити пароль</a>
+
+                </nav>
+            </div>             
+        </div>
+        {% block content %} {% endblock %}
+    </main>
 </body>
 </html>
