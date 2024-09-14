@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 # from .forms import CustomUserCreationForm
-# from .models import Car, CustomUser, generate_admin_statistics
+from .models import generate_admin_statistics
 
 
 def index(request):
@@ -10,10 +10,6 @@ def index(request):
 
 def rules(request):
     return render(request, "number_plates_app/rules.html")
-
-
-
-
 
 # def register(request):
 #     if request.method == "POST":

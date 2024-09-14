@@ -8,6 +8,6 @@ app_name = 'number_plates_app'
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
-    path('tarif/', parking_rates_views.index, name='tarif'),
+    path('tarifs/', parking_rates_views.index, name='tarif'),
     path('rules/', views.rules, name='rules'),
 ]
