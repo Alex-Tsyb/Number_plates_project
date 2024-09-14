@@ -161,6 +161,7 @@ cython_debug/
 .vscode/
 
 .postgres-data
+.postgres-data_OLD
 
 # Data for Data Science
 data_science/data/

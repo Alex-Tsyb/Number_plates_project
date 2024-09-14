@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'number_plates_app',
+    # 'number_plates_app',
     'users',
+    'cars',
     'payments',
+    'parking_sessions',
 ]
 
 MIDDLEWARE = [
@@ -80,11 +82,6 @@ WSGI_APPLICATION = 'number_plates.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': "parking_service",
-        # 'USER': "postgres",
-        # 'PASSWORD':  "secret",
-        # 'HOST': "localhost",
-        # 'PORT': "5432",
         'NAME': settings.django_database_db_name,
         'USER': settings.django_database_user,
         'PASSWORD':  settings.django_database_password,

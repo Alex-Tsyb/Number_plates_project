@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from .forms import RegisterForm, LoginForm
+# from cars.models import Car
 
 def menu(request):
     return render(request, 'users/menu.html')
@@ -58,3 +59,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     success_message = "An email with instructions to reset your\
                         password has been sent to %(email)s."
     subject_template_name = 'users/password_reset_subject.txt'
+
+# def user_parking_info(request):
+#     user_cars = Car.objects.filter(user=request.user)
+#     return render(request, "user_parking_info.html", {"user_cars": user_cars})

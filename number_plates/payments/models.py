@@ -32,3 +32,25 @@ class PaymentTransaction(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.transaction_type} {self.amount} on {self.created_at}'
+    
+
+# Модель для перевірки балансу користувача
+class UserBalance(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # зв'язок з користувачем
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # баланс користувача
+
+    def __str__(self):
+        return f'{self.user.username} - Balance: {self.balance}'
+
+    # Метод для додавання коштів на баланс
+    def add_funds(self, amount):
+        self.balance += amount
+        self.save()
+
+    # Метод для зняття коштів
+    def deduct_funds(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+            self.save()
+            return True
+        return False
