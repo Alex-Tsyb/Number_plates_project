@@ -69,7 +69,7 @@ class Session(models.Model):
     def __str__(self):
         current_duration = self.calculate_duration()
         text_session_duration = "тривала" if self.end_time else "триває"
-        return f"Паркувальна сесія '{self.parking_place}' номер місця {self.plase_number} : {self.vehicle} з {self.start_time.strftime('%Y-%m-%d %H:%M')} {text_session_duration} {current_duration} годин"
+        return f"Паркувальна сесія '{self.parking_place}' номер місця {self.place_number} : {self.vehicle} з {self.start_time.strftime('%Y-%m-%d %H:%M')} {text_session_duration} {current_duration} годин"
 
     def get_not_closed_sessions(self, place: Place = None):
         if not place is None:
