@@ -5,8 +5,8 @@
     <title>Parking</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'number_plates_app/style.css' %}">
-    <link rel="stylesheet" href="{% static 'number_plates_app/main.css' %}">
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+    <link rel="stylesheet" href="{% static 'parking/main.css' %}">
 </head>
 <body>
 <main class="container">
@@ -14,9 +14,9 @@
         <div class="user-menu">
             <nav class="nav">
                 <ul>
-                    <li><a href="{% url 'number_plates_app:index' %}" role="button">Головна</a></li>
-                    <li><a href="{% url 'number_plates_app:tarif' %}" role="button">Тарифи</a></li>
-                    <li><a href="{% url 'number_plates_app:rules' %}"role="button">Правила</a></li>
+                    <li><a href="{% url 'parking:index' %}" role="button">Головна</a></li>
+                    <li><a href="{% url 'parking:tarif' %}" role="button">Тарифи</a></li>
+                    <li><a href="{% url 'parking:rules' %}"role="button">Правила</a></li>
                     <li><a href="#" role="button">Схема проїзду</a></li>
                     <li><a href="#" role="button">Контакти</a></li>
                 </ul>
@@ -28,7 +28,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="banner-home">
-                <img src="{% static 'number_plates_app/images/background_video_new.jpg'%}" alt="img-fluid" class="background-img">
+                <img src="{% static 'parking/images/background_video_new.jpg'%}" alt="img-fluid" class="background-img">
                 
                 <div class="banner-text">
                     {% if user.is_authenticated %}

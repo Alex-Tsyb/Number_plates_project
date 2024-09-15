@@ -3,7 +3,7 @@ from . import views
 
 from parking_rates import views as parking_rates_views
 
-app_name = 'number_plates_app'
+app_name = 'parking'
 
 urlpatterns = [
     path('', views.index, name='index'),

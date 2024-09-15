@@ -41,12 +41,11 @@ INSTALLED_APPS = [
 
     "users",
 
-    "number_plates_app",
+    "parking",
 
     "parking_rates",
     "cars",
-    
-    "parking_sessions",
+     
     "payments",
 ]
 

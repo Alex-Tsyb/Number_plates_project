@@ -1,11 +1,13 @@
 from django.db import models
 
-# Create your models here.
 
 class Car(models.Model):
     license_plate = models.CharField(max_length=15)
     # add new fields here
     blocked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.license_plate
 
 
 # old code
@@ -21,7 +23,7 @@ class Car(models.Model):
 
 #     def __str__(self):
 #         return self.license_plate
-    
+
 #     # Метод для розрахунку суми за паркування
 #     def calculate_fee(self):
 #         if self.exit_time and self.entry_time:
@@ -53,4 +55,3 @@ class Car(models.Model):
 
 #     def __str__(self):
 #         return f"{self.vehicle} в чорному списку"
-

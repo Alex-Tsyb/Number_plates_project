@@ -5,11 +5,11 @@ from .models import generate_admin_statistics
 
 
 def index(request):
-    return render(request, "number_plates_app/index.html")
+    return render(request, "parking/index.html")
 
 
 def rules(request):
-    return render(request, "number_plates_app/rules.html")
+    return render(request, "parking/rules.html")
 
 # def register(request):
 #     if request.method == "POST":
