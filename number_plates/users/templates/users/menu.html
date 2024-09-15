@@ -18,15 +18,13 @@
                     <h3><strong>Логін:</strong> {{ request.user.username }}</h3>
         
                     <h3><strong>Email:</strong> {{ request.user.email }}</h3>
-        
-                    <h3><strong>Номер машини:</strong> {{ request.user.license_plate }}</h3>
-        
+
                     <a href="{% url 'users:password_reset' %}" role="button" class="secondary">Змінити пароль</a>
 
                 </nav>
             </div>             
         </div>
-        {% block content %} {% endblock %}
+
     </main>
 </body>
 </html>
