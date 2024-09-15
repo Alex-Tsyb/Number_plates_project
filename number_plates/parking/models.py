@@ -11,7 +11,7 @@ class Place(models.Model):
     description = models.CharField(max_length=255)
     count_parking_place = models.IntegerField()
     start_number = models.IntegerField()
-    exsept_numbers = ArrayField(models.IntegerField(), default=list, blank=True)
+    excluded_numbers = ArrayField(models.IntegerField(), default=list, blank=True)
 
     def __str__(self):
         # print(self.get_free_parking_plase())
@@ -21,7 +21,7 @@ class Place(models.Model):
         numbers_parking_place = list(
             range(self.start_number, self.start_number + self.count_parking_place)
         )
-        _ = [numbers_parking_place.remove(x) for x in self.exsept_numbers]
+        _ = [numbers_parking_place.remove(x) for x in self.excluded_numbers]
         return numbers_parking_place
 
     def get_free_parking_place(self):

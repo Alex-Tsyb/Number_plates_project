@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('description', models.CharField(max_length=255)),
                 ('count_parking_place', models.IntegerField()),
                 ('start_number', models.IntegerField()),
-                ('exsept_numbers', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), default=list, size=None)),
+                ('excluded_numbers', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(), default=list, size=None)),
             ],
         ),
         migrations.CreateModel(
