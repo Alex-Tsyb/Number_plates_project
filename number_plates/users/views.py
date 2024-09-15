@@ -5,8 +5,27 @@ from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from payments.models import UserBalance
 
 from .forms import RegisterForm, LoginForm
+
+from payments.models import UserBalance, PaymentTransaction  # Імпорт моделей
+
+@login_required
+def menu_payment(request):
+    # Отримуємо баланс користувача
+    user_balance = UserBalance.objects.get(user=request.user)
+    
+    # Отримуємо останні 5 транзакцій користувача
+    transactions = PaymentTransaction.objects.filter(user=request.user).order_by('-created_at')[:5]
+    
+    # Передаємо дані в шаблон
+    context = {
+        'balance': user_balance.balance,
+        'transactions': transactions
+    }
+    
+    return render(request, 'users/menu.html', context)
 
 def menu(request):
     return render(request, 'users/menu.html')
@@ -58,3 +77,4 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     success_message = "An email with instructions to reset your\
                         password has been sent to %(email)s."
     subject_template_name = 'users/password_reset_subject.txt'
+

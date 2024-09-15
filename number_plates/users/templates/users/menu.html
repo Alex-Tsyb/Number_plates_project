@@ -16,15 +16,25 @@
                     <a href="/" role="button" class="primary">Головна</a>
 
                     <h3><strong>Логін:</strong> {{ request.user.username }}</h3>
-        
                     <h3><strong>Email:</strong> {{ request.user.email }}</h3>
+                    
+                    <!-- Відображення балансу -->
+                    <h3><strong>Баланс:</strong> ${{ balance }}</h3>
+
+                    <!-- Відображення історії транзакцій -->
+                    <h3><strong>Останні транзакції:</strong></h3>
+                    <ul>
+                        {% for transaction in transactions %}
+                            <li>{{ transaction.created_at }} - {{ transaction.transaction_type }} ${{ transaction.amount }}</li>
+                        {% empty %}
+                            <li>Немає транзакцій</li>
+                        {% endfor %}
+                    </ul>
 
                     <a href="{% url 'users:password_reset' %}" role="button" class="secondary">Змінити пароль</a>
-
                 </nav>
             </div>             
         </div>
-
     </main>
 </body>
 </html>
