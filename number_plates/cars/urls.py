@@ -1,6 +1,9 @@
 from django.urls import path
-# from .views import CarListView, ConfirmChangesView
+
+from . import views
 
 app_name = "cars"
 
-urlpatterns = []
+urlpatterns = [
+    path("add_car", views.create_vehicle, name="add_car"),
+]
