@@ -1,16 +1,24 @@
 import os
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+import re
 from pathlib import Path
 import numpy as np
 import keras_cv
 import keras
 import tensorflow as tf
+import cv2
 from PIL import Image, UnidentifiedImageError
+import pytesseract
+
+
+# If you don't have tesseract executable in your PATH, include the following:
+# pytesseract.pytesseract.tesseract_cmd = r'<full_path_to_your_tesseract_executable>'
+# Example tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract'
 
 
 model_path = Path(__file__).parent.joinpath("model")
 
-prediction_decoder = keras_cv.layers.NonMaxSuppression(
+prediction_decoder_plate_position = keras_cv.layers.NonMaxSuppression(
     bounding_box_format="xyxy",
     from_logits=True,
     max_detections=1
@@ -19,7 +27,23 @@ model_plate_position = keras.models.load_model(
     model_path.joinpath('plate_recogn_based_on_yolo_xs.keras'),
     compile=False
 )
-model_plate_position.prediction_decoder = prediction_decoder
+model_plate_position.prediction_decoder = prediction_decoder_plate_position
+
+prediction_decoder_symbols_positions = keras_cv.layers.NonMaxSuppression(
+    bounding_box_format="xyxy",
+    from_logits=True,
+    # Decrease the required threshold to make predictions get pruned out
+    # iou_threshold=0.2,
+    # Tune confidence threshold for predictions to pass NMS
+    confidence_threshold=0.65,
+    max_detections=8
+)
+model_symbols_positions = keras.models.load_model(
+    model_path.joinpath('smbls_position.keras'),
+    compile=False
+)
+model_symbols_positions.prediction_decoder = prediction_decoder_symbols_positions
+
 
 model_chars_recognition = keras.models.load_model(
     model_path.joinpath("smbls_recogn_based_on_captcha_method.keras"),
@@ -107,56 +131,142 @@ def crop_plate(img: Image, bbox: list) -> Image:
     size = max(img.width, img.height)
     img_resized = Image.new(mode="RGB", size=(size, size))
     img_resized.paste(img, (0, 0))
+    # crop a little bit more
+    x = 0.01
     return img_resized.crop(
         (
-            img_resized.width * bbox[1],
-            img_resized.height * bbox[0],
-            img_resized.width * bbox[3],
-            img_resized.height * bbox[2]
+            img_resized.width * (bbox[1] - x),
+            img_resized.height * (bbox[0] - x),
+            img_resized.width * (bbox[3] + x),
+            img_resized.height * (bbox[2] + x)
         )
     )
+
+
+def recognize_symbols_with_tesseract(plate_clean: Image.Image) -> str:
+    symbols = "0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    plate_text = pytesseract.image_to_string(plate_clean).upper()
+    plate_text = re.sub(f"[^{symbols}]", "", plate_text)
+    return plate_text
+
+
+def split_to_chars(
+        plate_image: Image.Image,
+        model: keras.models = model_symbols_positions
+) -> tuple[Image.Image, tuple[Image.Image]]:
+    plate = np.array(plate_image)
+    
+    # make image preprocessing before model input
+    resizer = keras.Sequential(
+    layers=[
+            # keras_cv.layers.Grayscale(output_channels=3),
+            # keras_cv.layers.Equalization(value_range=[0,255]),
+            keras_cv.layers.Resizing(
+                256,
+                256,
+                pad_to_aspect_ratio=True,
+                bounding_box_format="xyxy",
+            )
+        ]
+    )
+    plate = resizer([plate])
+
+    # make prediction
+    y_pred = model.predict((plate), verbose=0)
+
+    plate_with_boxes = plate[0].numpy().astype("uint8")
+    
+    # extract symbols images
+    symbols = {int(symbol[0]): symbol for symbol in y_pred["boxes"][0]}
+    symbols_imgs = []
+    plate_clean = Image.new(mode="RGB", size=(256, 256), color=(255, 255, 255))
+    for symbol in sorted(symbols.items()):
+        x_min = int(symbol[1][0])
+        y_min = int(symbol[1][1]) - 3 # cut a little bit more - need further check
+        x_max = int(symbol[1][2])
+        y_max = int(symbol[1][3]) + 3 # cut a little bit more - need further check
+        y_min = y_min if y_min >=0 else 0
+        y_max = y_max if y_max <= plate[0].shape[0] else plate[0].shape[0]
+        cv2.rectangle(plate_with_boxes,
+            (x_min, y_min),
+            (x_max, y_max),
+            (255, 255, 0),
+            2
+        )
+        symbol_img = Image.fromarray(
+            plate[0][y_min:y_max, x_min:x_max].numpy().astype("uint8")
+            )
+        symbols_imgs.append(symbol_img)
+        plate_clean.paste(symbol_img, (x_min, y_min))
+    
+    # crop plate_with_boxes to original aspect and convert to Image
+    x_aspect = plate_image.width / max(plate_image.size)
+    y_aspect = plate_image.height / max(plate_image.size)
+    width = int(x_aspect * plate_with_boxes.shape[1])
+    height = int(y_aspect * plate_with_boxes.shape[0])
+    plate_with_boxes = Image.fromarray(
+        plate_with_boxes[0:height, 0:width]
+    )
+
+    plate_clean = plate_clean.crop((0, 0, width, height))
+
+    return plate_with_boxes, plate_clean, symbols_imgs
 
 
 def recognize_plate(
-        img: Image,
+        image: Image.Image,
         model: keras.models = model_plate_position
-) -> tuple:
+) -> tuple[Image.Image]:
 
     # make image preprocessing before model input
-    imgs = [np.array(img)]
-    imgs = keras_cv.layers.Resizing(
+    img = np.array(image)
+    img_with_box = img.copy()
+    resizer = keras_cv.layers.Resizing(
         640,
         640,
         pad_to_aspect_ratio=True
-    ).call(imgs)
+    )
+    img = resizer([img])
 
     # make prediction
-    y_pred = model.predict((imgs), verbose=0)
+    y_pred = model.predict((img), verbose=0)
 
     y_pred = keras_cv.bounding_box.convert_format(
         y_pred,
-        images=imgs,
+        images=img,
         source="xyxy",
         target="rel_yxyx",
     )
-    img_with_box = tf.image.draw_bounding_boxes(
-        imgs, y_pred["boxes"],
-        np.array([[255, 255, 0]])
-    )
-    img_with_box = Image.fromarray(
-            img_with_box[0].numpy().astype(dtype="uint8")
-        )
-    return (
+
+    # draw box on original image
+    size = max(img_with_box.shape)
+    box_xmin = int(y_pred["boxes"][0][0][1] * size)
+    box_xmax = int(y_pred["boxes"][0][0][3] * size)
+    box_ymin = int(y_pred["boxes"][0][0][0] * size)
+    box_ymax = int(y_pred["boxes"][0][0][2] * size)
+    cv2.rectangle(
         img_with_box,
-        crop_plate(img, y_pred["boxes"][0][0].numpy().tolist())
+        (box_xmin, box_ymin),
+        (box_xmax, box_ymax),
+        (255, 255, 0),
+        3
     )
+    
+    img_with_box = Image.fromarray(img_with_box)
+    plate = crop_plate(image, y_pred["boxes"][0][0].numpy().tolist())
+    return img_with_box, plate
 
 
-def recognize(img: Image) -> tuple:
+def recognize(img: Image, direct_recognition: bool = True) -> tuple:
     img_with_box, plate = recognize_plate(img)
-    if plate is None:
-        return img_with_box, None, None
-    plate_text = recognize_chars(plate)
+    
+    if direct_recognition:
+        plate_text = recognize_chars(plate)
+    else:
+        plate_with_boxes, plate_clean, symbols_list = split_to_chars(plate)
+        plate_text = recognize_symbols_with_tesseract(plate_clean)
+        plate = plate_with_boxes
     return img_with_box, plate, plate_text
 
 
