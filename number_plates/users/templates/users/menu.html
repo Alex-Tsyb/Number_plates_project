@@ -1,7 +1,21 @@
 {% extends "parking/base.html" %}
 
 {% block content %}
-<div>
-    <h2>Hi in menu</h2>
+
+<div class="container">
+    <div class="row-home-text">
+        <!-- Відображення балансу -->
+        <h3><strong>Баланс:</strong> ${{ balance }}</h3>
+
+        <!-- Відображення історії транзакцій -->
+        <h3><strong>Останні транзакції:</strong></h3>
+        <ul>
+            {% for transaction in transactions %}
+                <li>{{ transaction.created_at }} - {{ transaction.transaction_type }} ${{ transaction.amount }}</li>
+            {% empty %}
+                <li>Немає транзакцій</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}

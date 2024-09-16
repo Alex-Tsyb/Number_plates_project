@@ -1,9 +1,9 @@
 <nav class="nav">
     <ul class="list-unstyled">
-        <li><a href="/">Головна</a></li>
+        <li><a href="{% url 'parking:index' %}">Головна</a></li>
         <li><a href="{% url 'parking:tarif' %}">Тарифи</a></li>
-        <li><a href="#">Правила</a></li>
-        <li><a href="#">Схема проїзду</a></li>
+        <li><a href="{% url 'parking:rules' %}">Правила</a></li>
+        <li><a href="{% url 'parking:parking_plan' %}">Схема проїзду</a></li>
         <li><a href="#">Контакти</a></li>
     </ul>
 </nav>
