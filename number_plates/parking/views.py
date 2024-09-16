@@ -1,6 +1,12 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .repository import get_places_info, generate_admin_statistics
+from .repository import (
+    get_places_info,
+    generate_admin_statistics,
+    get_session_by_id_for_form,
+)
+from .forms import SessionForm
 
 
 def index(request):
@@ -24,3 +30,25 @@ def parking_plan(request):
     context = {"places_info": places_info}
 
     return render(request, "parking/parking_plan.html", context)
+
+
+@login_required
+def parking_session(request, pk: int = None):
+
+    if request.method == "POST":
+        form = SessionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to="parking:index")
+    else:
+        if not pk is None:
+            object_session = get_session_by_id_for_form(pk)
+            form = SessionForm(initial=object_session)
+        else:
+            form = SessionForm()
+
+    context = {}
+    context["type"] = "create" if not pk else "edit"
+    context["form"] = form
+
+    return render(request, "parking/parking_session.html", context)

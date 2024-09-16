@@ -1,5 +1,7 @@
 from .models import Place, Session
 
+from cars.models import Car
+
 
 def generate_admin_statistics():
     # total_cars = Car.objects.count()
@@ -18,6 +20,25 @@ def generate_admin_statistics():
         "total_profit": total_profit,
     }
 
+
+def get_session_by_id(session_id: int):
+    return Session.objects.get(pk=session_id)
+
+def get_session_by_id_for_form(session_id: int):
+
+    session_by_id = get_session_by_id(session_id)
+
+    session_obj = {}
+
+    session_obj["parking_place"] = session_by_id.parking_place
+    session_obj["place_number"] = session_by_id.place_number
+    session_obj["vehicle"] = session_by_id.vehicle
+    session_obj["start_time"] = session_by_id.start_time
+    session_obj["end_time"] = session_by_id.end_time
+    session_obj["total_cost"] = session_by_id.total_cost
+    session_obj["closed"] = session_by_id.end_time is not None
+
+    return session_obj
 
 def get_not_closed_sessions(place: Place = None):
     if not place is None:
@@ -68,3 +89,14 @@ def get_places_info():
         result.append(place_info)
 
     return result
+
+
+def get_free_parking_places_for_choice(place: Place = None):
+    if place is None:
+        return (1,2,3,4)
+    return place.get_list_numbers_parking_place()
+
+
+def get_cars_for_choice():
+
+    return Car.objects.all()

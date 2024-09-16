@@ -1,3 +1,4 @@
+from typing import Iterable
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.utils import timezone
@@ -42,6 +43,11 @@ class Session(models.Model):
     total_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     payment = models.ManyToManyField(PaymentTransaction, blank=True)
 
+    def __str__(self):
+        current_duration = self.calculate_duration()
+        text_session_duration = "тривала" if self.end_time else "триває"
+        return f"Паркувальна сесія '{self.parking_place}' номер місця {self.place_number} : {self.vehicle} з {self.start_time.strftime('%Y-%m-%d %H:%M')} {text_session_duration} {current_duration} годин"
+
     def calculate_duration(self):
         duration = 0
         if self.end_time is None:
@@ -60,11 +66,6 @@ class Session(models.Model):
             )  # Припускаємо, що є лише один тариф
             return min(duration * parking_rate.rate_per_hour, parking_rate.max_limit)
         return 0
-
-    def __str__(self):
-        current_duration = self.calculate_duration()
-        text_session_duration = "тривала" if self.end_time else "триває"
-        return f"Паркувальна сесія '{self.parking_place}' номер місця {self.place_number} : {self.vehicle} з {self.start_time.strftime('%Y-%m-%d %H:%M')} {text_session_duration} {current_duration} годин"
 
 
 # Модель для звітів паркувальних сесій
