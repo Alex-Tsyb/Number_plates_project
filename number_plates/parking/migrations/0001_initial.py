@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                 ('start_time', models.DateTimeField(default=django.utils.timezone.now)),
                 ('end_time', models.DateTimeField(blank=True, null=True)),
                 ('total_cost', models.DecimalField(decimal_places=2, default=0, max_digits=8)),
-                ('parking_place', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='parking.plase')),
+                ('parking_place', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='parking.place')),
                 ('payment', models.ManyToManyField(blank=True, to='payments.paymenttransaction')),
                 ('vehicle', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cars.car')),
             ],

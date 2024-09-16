@@ -10,7 +10,7 @@ class PlaceAdmin(admin.ModelAdmin):
         "description",
         "count_parking_place",
         "start_number",
-        "exsept_numbers",
+        "excluded_numbers",
         "parking_place_numbers",
     )
 
