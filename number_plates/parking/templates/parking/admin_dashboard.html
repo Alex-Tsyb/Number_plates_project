@@ -1,4 +1,18 @@
-<!DOCTYPE html>
+{% extends "parking/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2>Admin Dashboard</h2>
+    <p>Total Vehicles: {{ stats.total_vehicles }}</p>
+    <p>Blacklisted Vehicles: {{ stats.blocked_vehicles }}</p>
+    <p>Total Parking Sessions: {{ stats.total_parking_sessions }}</p>
+    <p>Total Revenue: {{ stats.total_revenue }} UAH</p>
+</div>
+
+{% endblock %}
+
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Admin Dashboard</title>
@@ -10,4 +24,4 @@
     <p>Total Parking Sessions: {{ stats.total_parking_sessions }}</p>
     <p>Total Revenue: {{ stats.total_revenue }} UAH</p>
 </body>
-</html>
+</html> -->

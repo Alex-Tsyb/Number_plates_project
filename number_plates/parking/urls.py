@@ -10,4 +10,5 @@ urlpatterns = [
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('tarifs/', parking_rates_views.index, name='tarif'),
     path('rules/', views.rules, name='rules'),
+    path('parking_plan/', views.parking_plan, name='parking_plan'),
 ]

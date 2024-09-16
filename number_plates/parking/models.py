@@ -19,20 +19,15 @@ class Place(models.Model):
 
     def get_list_numbers_parking_place(self):
         numbers_parking_place = list(
-            range(self.start_number, self.start_number + self.count_parking_place)
+            range(
+                self.start_number,
+                self.start_number
+                + self.count_parking_place
+                + len(self.excluded_numbers),
+            )
         )
         _ = [numbers_parking_place.remove(x) for x in self.excluded_numbers]
         return numbers_parking_place
-
-    def get_free_parking_place(self):
-        not_closed = Session.get_not_closed_sessions(place=self)
-        # Check if not closed
-        print(not_closed)
-        return self.get_list_parking_place()
-        # .remove(list_not_closed)
-
-    def get_list_parking_place_with_description(self):
-        pass
 
 
 # Модель для паркувальних сесій
@@ -71,12 +66,6 @@ class Session(models.Model):
         text_session_duration = "тривала" if self.end_time else "триває"
         return f"Паркувальна сесія '{self.parking_place}' номер місця {self.place_number} : {self.vehicle} з {self.start_time.strftime('%Y-%m-%d %H:%M')} {text_session_duration} {current_duration} годин"
 
-    def get_not_closed_sessions(self, place: Place = None):
-        if not place is None:
-            return Session.objects.filter(end_time__isnull=True, parking_place=place)
-        else:
-            return Session.objects.filter(end_time__isnull=True)
-
 
 # Модель для звітів паркувальних сесій
 class Report(models.Model):
@@ -87,21 +76,3 @@ class Report(models.Model):
 
     def __str__(self):
         return f"Звіт для {self.vehicle} ({self.created_at})"
-
-
-def generate_admin_statistics():
-    # total_cars = Car.objects.count()
-    # blacklisted_cars = Car.objects.filter(blacklisted=True).count()
-    # total_parking_sessions = Car.objects.exclude(exit_time=None).count()
-    # total_profit = sum(car.total_fee for car in Car.objects.exclude(total_fee=0))
-
-    total_cars = 100
-    blocked_cars = 1
-    total_parking_sessions = 10
-    total_profit = 50
-    return {
-        "total_cars": total_cars,
-        "blocked_cars": blocked_cars,
-        "total_parking_sessions": total_parking_sessions,
-        "total_profit": total_profit,
-    }

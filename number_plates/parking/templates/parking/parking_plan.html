@@ -1,0 +1,45 @@
+{% extends "parking/base.html" %}
+
+{% block content %}
+<div>
+    <h2>Схема проїзду</h2>
+</div>
+
+{% for place in places_info %}
+
+<div class="container-fluid">
+    <p>{{place.description}}</p>
+
+    <div class="row row-cols-auto gap-3 p-4 border rounded bg-light">
+
+    {% for place_numbers in place.parking_place %}
+
+        <!-- {% if place_numbers.status == 'free' %}bg-color-success{% endif %} -->
+
+        <div class="col py-3 border rounded " style="width: 150px; height: 170px;">
+
+            <!-- <p class="text-center">STATUS {{place_numbers.status}}</p> -->
+
+            <p class="text-center"> № {{place_numbers.number}}</p>
+            
+            <p class="text-center">{% if place_numbers.vehicle != None %}{{place_numbers.vehicle}}{%endif%}</p>
+            
+            <p class="text-center">{% if place_numbers.start_time != None %}{{place_numbers.start_time}}{%endif%}</p>
+
+            <p class="text-center">{{place_numbers.current_time}}</p>
+            
+            <!-- {% for k, v in place_numbers.items %}
+                <p class="col">{{k}} {{v}}</p>
+            {% endfor %} -->
+
+        </div>
+        
+        
+    {% endfor %}
+    </div>
+     
+</div>
+
+{% endfor %}
+
+{% endblock %}
