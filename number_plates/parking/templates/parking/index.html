@@ -1,7 +1,15 @@
 {% extends "parking/base.html" %}
 
 {% block content %}
-<div class="container">
+{% load static %}
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="banner-home">
+                <img src="{% static 'parking/images/background_video_new.jpg'%}" alt="img-fluid" class="background-img"> 
+            </div>
+        </div>
+    </div>
     <div class="row-home-text">
         <h2>Про паркінг</h2>
         <p>Збереження автомобіля в режимі 24/7, захист від впливу будь-яких погодних умов, а також, наявність повного спектра супутнього автомобільного сервісу, таких як: мийка, хімчистка салону, послуги з детейлінгу - все це невід'ємні переваги паркінгу, які особливо важливі для жителів міста-мільйонника з швидким ритмом життя і високою цінністю таких понять як "час" і "безпека".</p>
@@ -18,6 +26,9 @@
             </li>
         </ul>
     </div>
+</div>
+
+
 <!--
 
 </div id="slideshow0" class="owl-carousel owl-loaded owl-drag" style="opacity: 1;">

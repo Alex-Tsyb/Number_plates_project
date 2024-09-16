@@ -14,13 +14,13 @@ def menu(request):
 
 def signupuser(request):
     if request.user.is_authenticated:
-        return redirect(to='number_plates_app:index')
+        return redirect(to='parking:index')
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(to='number_plates_app:index')
+            return redirect(to='parking:index')
         else:
             return render(request, 'users/signup.html', context={"form": form})
 
@@ -29,7 +29,7 @@ def signupuser(request):
 
 def loginuser(request):
     if request.user.is_authenticated:
-        return redirect(to='number_plates_app:index')
+        return redirect(to='parking:index')
 
     if request.method == 'POST':
         user = authenticate(username=request.POST['username'],
@@ -40,7 +40,7 @@ def loginuser(request):
             return redirect(to='users:login')
 
         login(request, user)
-        return redirect(to='number_plates_app:index')
+        return redirect(to='parking:index')
 
     return render(request, 'users/login.html', context={"form": LoginForm()})
 
@@ -48,7 +48,7 @@ def loginuser(request):
 @login_required
 def logoutuser(request):
     logout(request)
-    return redirect(to='number_plates_app:index')
+    return redirect(to='parking:index')
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):

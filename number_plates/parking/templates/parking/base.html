@@ -9,63 +9,16 @@
     <link rel="stylesheet" href="{% static 'parking/main.css' %}">
 </head>
 <body>
-<main class="container">
-    <div class="menu-container">
-        <div class="user-menu">
-            <nav class="nav">
-                <ul>
-                    <li><a href="{% url 'parking:index' %}" role="button">Головна</a></li>
-                    <li><a href="{% url 'parking:tarif' %}" role="button">Тарифи</a></li>
-                    <li><a href="{% url 'parking:rules' %}"role="button">Правила</a></li>
-                    <li><a href="#" role="button">Схема проїзду</a></li>
-                    <li><a href="#" role="button">Контакти</a></li>
-                </ul>
-            </nav>
-        </div>
-
+    <div class="container">
+        <header>
+            {% include "parking/main_menu.html" %}
+        </header>
+        <main>
+            {% block content %} {% endblock %}
+        </main>
+        <footer>
+            {% include "parking/footer_menu.html" %}
+        </footer>
     </div>
-
-    <div class="container-fluid">
-        <div class="row">
-            <div class="banner-home">
-                <img src="{% static 'parking/images/background_video_new.jpg'%}" alt="img-fluid" class="background-img">
-                
-                <div class="banner-text">
-                    {% if user.is_authenticated %}
-                    <div class="h1">
-                        <h3>Welcome <b>{{ user.username }}!</b></h3>
-                        <h2><a href="{% url 'users:menu' %}" role="button">Menu</a></h2>
-                        <h2><a href="{% url 'users:logout' %}" role="button">Logout</a></h2>
-                    </div>
-                    {% else %}
-                    <div class="h1">
-                        <div>
-                            <h2><a href="{% url 'users:signup' %}" role="button">Sign Up</a></h2>
-                            <h2><a href="{% url 'users:login' %}" role="button">Login</a></h2>
-                        </div>
-                    </div> 
-                    {% endif %} 
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    {% block content %} {% endblock %}
-</main>
-<footer class="container">
-    <div class="row">
-        <div class="user-menu">
-            <nav class="nav">
-                <ul class="list-unstyled">
-                    <li><a href="/">Головна</a></li>
-                    <li><a href="#">Тарифи</a></li>
-                    <li><a href="#">Правила</a></li>
-                    <li><a href="#">Схема проїзду</a></li>
-                    <li><a href="#">Контакти</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</footer>
 </body>
 </html>
