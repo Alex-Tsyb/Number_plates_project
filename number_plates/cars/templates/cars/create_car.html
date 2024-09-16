@@ -1,0 +1,28 @@
+{% extends "parking/base.html" %}
+
+{% block content %}
+
+<div class="details">
+    <h3 >Create car</h3>
+    <form action="" method="post">
+  
+      {% csrf_token %}
+  
+      <div class="mb-3">
+        <label> License plate </label>
+        {{ form.license_plate }}
+      </div>
+      <div class="mb-3">
+        <label> Blocked </label>
+        {{ form.blocked }}
+      </div>
+  
+      <div class="mb-3 text-center">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-secondary" type="reset ">Reset</button>
+      </div>
+  
+    </form>
+  </div>
+
+{% endblock %}
