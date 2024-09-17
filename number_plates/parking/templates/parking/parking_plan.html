@@ -12,25 +12,21 @@
 
     <div class="row row-cols-auto gap-3 p-4 border rounded bg-light">
 
-    {% for place_numbers in place.parking_place %}
+    {% for place_numbers in place.parking_place %}        
 
-        <!-- {% if place_numbers.status == 'free' %}bg-color-success{% endif %} -->
-
-        <div class="col py-3 border rounded " style="width: 150px; height: 170px;">
-
-            <!-- <p class="text-center">STATUS {{place_numbers.status}}</p> -->
+        <div class="col py-3 border rounded align-content-center {% if place_numbers.status == 'free' %}bg-success{% else %}bg-danger{% endif %}" style="width: 150px; height: 170px;">
 
             <p class="text-center"> № {{place_numbers.number}}</p>
-            
-            <p class="text-center">{% if place_numbers.vehicle != None %}{{place_numbers.vehicle}}{%endif%}</p>
-            
-            <p class="text-center">{% if place_numbers.start_time != None %}{{place_numbers.start_time}}{%endif%}</p>
 
-            <p class="text-center">{{place_numbers.current_time}}</p>
+            {% if user.is_authenticated %}
             
-            <!-- {% for k, v in place_numbers.items %}
-                <p class="col">{{k}} {{v}}</p>
-            {% endfor %} -->
+                <p class="text-center">{% if place_numbers.vehicle != None %}{{place_numbers.vehicle}}{%endif%}</p>
+            
+                <p class="text-center">{% if place_numbers.start_time != None %}{{place_numbers.start_time}}{%endif%}</p>
+
+                <p class="text-center">{{place_numbers.current_time}}</p>
+            
+            {% endif %}
 
         </div>
         
