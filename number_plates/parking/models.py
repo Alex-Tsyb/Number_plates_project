@@ -48,6 +48,10 @@ class Session(models.Model):
         text_session_duration = "тривала" if self.end_time else "триває"
         return f"Паркувальна сесія '{self.parking_place}' номер місця {self.place_number} : {self.vehicle} з {self.start_time.strftime('%Y-%m-%d %H:%M')} {text_session_duration} {current_duration} годин"
 
+    def save(self, *args, **kwargs):
+        self.total_cost = self.calculate_cost()
+        super().save(*args, **kwargs)
+
     def calculate_duration(self):
         duration = 0
         if self.end_time is None:
@@ -59,13 +63,16 @@ class Session(models.Model):
         return round(duration.total_seconds() / 3600, 2)
 
     def calculate_cost(self):
-        if self.end_time:
-            duration = self.calculate_duration()
-            parking_rate = (
-                ParkingRate.objects.first()
-            )  # Припускаємо, що є лише один тариф
-            return min(duration * parking_rate.rate_per_hour, parking_rate.max_limit)
-        return 0
+        # Use Early Return !!!!!!
+        if self.end_time is None:
+            return 0
+
+        duration = self.calculate_duration()
+        parking_rate = (
+            ParkingRate.objects.first()
+        )  # Припускаємо, що є лише один тариф
+        return min(duration * float(parking_rate.rate_per_hour), float(parking_rate.max_limit))
+
 
 
 # Модель для звітів паркувальних сесій
