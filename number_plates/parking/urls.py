@@ -18,6 +18,9 @@ urlpatterns = [
     path('add_car/', cars_views.create_vehicle, name='add_car'),
 
     path('parking_session/', views.parking_session, name='parking_session'),
-    path('parking_session/<int:pk>/', views.parking_session, name='parking_session'),
+    path('parking_session/<int:pk>/', views.parking_session, name='parking_session_edit'),
+
+    path('parking_session_dialog/', views.parking_session_dialog, name='parking_session_dialog'),
+    path('parking_session_dialog/<int:pk>/', views.parking_session_dialog, name='parking_session_dialog_edit'),
 ]
 

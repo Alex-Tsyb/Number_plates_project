@@ -1,41 +1,7 @@
-{% extends "parking/base.html" %}
+{% extends "parking/base.html" %} 
 
 {% block content %}
 
-<div class="details">
-    <h3 >{{ type.capitalize }} parking session</h3>
-    <form action="" method="post">
-  
-      {% csrf_token %}
-  
-      <div class="mb-3">
-        <label> Parking place </label>
-        {{ form.parking_place}}
-      </div>
-      <div class="mb-3">
-        <label> Place number </label>
-        {{ form.place_number }}
-      </div>
-      <div  class="mb-3">
-        <label> Vehicle </label>
-        {{ form.vehicle }}
-      </div>
-
-      <div class="mb-3">
-        <label> Start time </label>
-        {{ form.start_time }}
-      </div>
-      <div class="mb-3">
-        <label> End time </label>
-        {{ form.end_time }}
-      </div>
-  
-      <div class="mb-3 text-center">
-        <button class="btn btn-primary" type="submit">Save</button>
-        <button class="btn btn-secondary" type="reset ">Reset</button>
-      </div>
-  
-    </form>
-  </div>
+{% include "parking/parking_session_form.html" %}
 
 {% endblock %}

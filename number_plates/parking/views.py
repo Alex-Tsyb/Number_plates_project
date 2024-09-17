@@ -52,3 +52,24 @@ def parking_session(request, pk: int = None):
     context["form"] = form
 
     return render(request, "parking/parking_session.html", context)
+
+@login_required
+def parking_session_dialog(request, pk = None):
+
+    if request.method == "POST":
+        form = SessionForm(request = request, data=request.POST, prefix="modal")
+        if form.is_valid():
+            form.save()
+            return redirect(to="parking:index")
+    else:
+        if not pk is None:
+            object_session = get_session_by_id_for_form(pk)
+            form = SessionForm(initial=object_session)
+        else:
+            form = SessionForm(prefix="modal")
+
+    context = {}
+    context["type"] = "create" if not pk else "edit"
+    context["form"] = form
+
+    return render(request, "parking/parking_session_dialog.html", context)

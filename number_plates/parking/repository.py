@@ -73,6 +73,7 @@ def get_places_info():
                 place_number=palace_number
             ).first()
             if not open_session_place_number is None:
+                parking_place["place"] = place
                 parking_place["status"] = "busy"
                 parking_place["vehicle"] = open_session_place_number.vehicle
                 parking_place["start_time"] = (
