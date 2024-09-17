@@ -67,11 +67,12 @@ def get_places_info():
             parking_place.setdefault("status", "free")
             parking_place.setdefault("vehicle", None)
             parking_place.setdefault("start_time", None)
+            parking_place.setdefault("session_id", None)
 
             open_session_place_number = open_sessions.filter(
                 place_number=palace_number
             ).first()
-            if open_session_place_number is not None:
+            if not open_session_place_number is None:
                 parking_place["status"] = "busy"
                 parking_place["vehicle"] = open_session_place_number.vehicle
                 parking_place["start_time"] = (
@@ -80,7 +81,7 @@ def get_places_info():
                 parking_place["current_time"] = (
                     open_session_place_number.calculate_duration()
                 )
-                # parking_place["open_session"] = open_session_place_number
+                parking_place["session_id"] = str(open_session_place_number.id)
 
             parking_places.append(parking_place)
 
