@@ -10,6 +10,8 @@ from .repository import get_cars_for_choice, get_free_parking_places_for_choice
 
 class SessionForm(forms.ModelForm):
 
+    session_id = forms.CharField(required=False, widget=forms.HiddenInput())
+
     parking_place = forms.ModelChoiceField(
         queryset=Place.objects.all(),
         required=True,
@@ -31,7 +33,7 @@ class SessionForm(forms.ModelForm):
 
     class Meta:
         model = Session
-        fields = ["parking_place", "place_number", "vehicle", "start_time", "end_time"]
+        fields = ["session_id", "parking_place", "place_number", "vehicle", "start_time", "end_time"]
 
 
 # old code
