@@ -5,28 +5,31 @@ import numpy as np
 import keras_cv
 import keras
 import tensorflow as tf
+import cv2
 from PIL import Image, UnidentifiedImageError
 
 
 model_path = Path(__file__).parent.joinpath("model")
 
-prediction_decoder = keras_cv.layers.NonMaxSuppression(
+prediction_decoder_plate_position = keras_cv.layers.NonMaxSuppression(
     bounding_box_format="xyxy",
     from_logits=True,
     max_detections=1
 )
 model_plate_position = keras.models.load_model(
-    model_path.joinpath('plate_recogn_based_on_yolo_xs.keras'),
+    model_path.joinpath('plate_position_model.keras'),
     compile=False
 )
-model_plate_position.prediction_decoder = prediction_decoder
+model_plate_position.prediction_decoder = prediction_decoder_plate_position
 
 model_chars_recognition = keras.models.load_model(
-    model_path.joinpath("smbls_recogn_based_on_captcha_method.keras"),
+    model_path.joinpath("numberplate_OCR.keras"),
     compile=False
 )
 
-characters = [ch for ch in " -0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"]
+characters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
+              'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'O', 'P',
+              'T', 'X', 'Y', 'Z']
 
 char_to_num = keras.layers.StringLookup(
     vocabulary=list(characters), mask_token=None
@@ -80,7 +83,7 @@ def decode_batch_predictions(pred):
 
 
 def recognize_chars(
-        img: Image,
+        img: Image.Image,
         model: keras.models = model_chars_recognition
 ) -> str:
 
@@ -103,8 +106,8 @@ def recognize_chars(
     return None if preds.find("[UNK]") != -1 else preds
 
 
-def crop_plate(img: Image, bbox: list) -> Image:
-    size = max(img.width, img.height)
+def crop_plate(img: Image.Image, bbox: list) -> Image.Image:
+    size = max(img.size)
     img_resized = Image.new(mode="RGB", size=(size, size))
     img_resized.paste(img, (0, 0))
     return img_resized.crop(
@@ -118,44 +121,50 @@ def crop_plate(img: Image, bbox: list) -> Image:
 
 
 def recognize_plate(
-        img: Image,
+        image: Image.Image,
         model: keras.models = model_plate_position
-) -> tuple:
+) -> tuple[Image.Image]:
 
     # make image preprocessing before model input
-    imgs = [np.array(img)]
-    imgs = keras_cv.layers.Resizing(
+    img = np.array(image)
+    img_with_box = img.copy()
+    resizer = keras_cv.layers.Resizing(
         640,
         640,
         pad_to_aspect_ratio=True
-    ).call(imgs)
+    )
+    img = resizer([img])
 
     # make prediction
-    y_pred = model.predict((imgs), verbose=0)
+    y_pred = model.predict((img), verbose=0)
 
     y_pred = keras_cv.bounding_box.convert_format(
         y_pred,
-        images=imgs,
+        images=img,
         source="xyxy",
         target="rel_yxyx",
     )
-    img_with_box = tf.image.draw_bounding_boxes(
-        imgs, y_pred["boxes"],
-        np.array([[255, 255, 0]])
-    )
-    img_with_box = Image.fromarray(
-            img_with_box[0].numpy().astype(dtype="uint8")
-        )
-    return (
+
+    # draw box on original image
+    size = max(img_with_box.shape)
+    box_xmin = int(y_pred["boxes"][0][0][1] * size)
+    box_xmax = int(y_pred["boxes"][0][0][3] * size)
+    box_ymin = int(y_pred["boxes"][0][0][0] * size)
+    box_ymax = int(y_pred["boxes"][0][0][2] * size)
+    cv2.rectangle(
         img_with_box,
-        crop_plate(img, y_pred["boxes"][0][0].numpy().tolist())
+        (box_xmin, box_ymin),
+        (box_xmax, box_ymax),
+        (255, 255, 0),
+        3
     )
+    img_with_box = Image.fromarray(img_with_box)
+    plate = crop_plate(image, y_pred["boxes"][0][0].numpy().tolist())
+    return img_with_box, plate
 
 
-def recognize(img: Image) -> tuple:
+def recognize(img: Image.Image) -> tuple:
     img_with_box, plate = recognize_plate(img)
-    if plate is None:
-        return img_with_box, None, None
     plate_text = recognize_chars(plate)
     return img_with_box, plate, plate_text
 
