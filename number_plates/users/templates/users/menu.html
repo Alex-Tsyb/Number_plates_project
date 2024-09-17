@@ -1,7 +1,31 @@
-{% extends "parking/base.html" %}
+{% extends "parking/base.html" %} 
 
 {% block content %}
-<div>
-    <h2>Hi in menu</h2>
+<div class="d-flex flex-row justify-content-around align-items-center">
+    <div>
+        <h3><strong>Логін:</strong> {{ request.user.username }}</h3>
+        <h3><strong>Email:</strong> {{ request.user.email }}</h3>
+    </div>
+    <div>
+        <a href="{% url 'users:password_reset' %}" role="button" class="secondary"
+        >Змінити пароль</a
+      >
+    </div>
+</div>
+<div class="container border">
+    <div class="details p-4">
+        <!-- Відображення балансу -->
+        <h3><strong>Поточний баланс:</strong> {{ balance }} грн</h3>
+
+        <!-- Відображення історії транзакцій -->
+        <h3><strong>Останні транзакції:</strong></h3>
+        <ul>
+            {% for transaction in transactions %}
+                <li>{{ transaction.created_at }} - {{ transaction.transaction_type }} ${{ transaction.amount }}</li>
+            {% empty %}
+                <li>Немає транзакцій</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}
