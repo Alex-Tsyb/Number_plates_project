@@ -1,72 +1,65 @@
-{% extends "parking/base.html" %}
-
-{% block content %}
+{% extends "parking/base.html" %} {% block content %}
 <div>
-    <h2>Схема проїзду</h2>
+  <h2>Схема проїзду</h2>
 </div>
 
 {% for place in places_info %}
 
 <div class="container-fluid">
-    <p>{{place.description}}</p>
+  <h3 class="text-center">{{place.description}}</h3>
 
-    <div class="row row-cols-auto gap-3 p-4 border rounded bg-light">
+  <div class="row row-cols-auto gap-4 p-4 border rounded bg-light">
+    {% for place_number in place.parking_place %}
 
-        {% for place_number in place.parking_place %}
-        
-        <div class="col">
-
-            <div class="card justify-content-center {% if place_number.status == 'free' %}bg-success{% else %}bg-danger{% endif %}" style="width: 8rem; height: 10rem;">
-                <div class="card-body d-flex flex-column justify-content-center">
-                    <h4 class="card-title text-center">№ {{place_number.number}}</h4>
-                    {% if user.is_authenticated %}
-                        {% if place_number.vehicle != None %}
-                            <p class="card-text text-center text-white">{{place_number.vehicle}}</p>
-                        {%endif%}
-
-                        {% if place_number.start_time != None %}
-                            <p class="card-text text-center text-white">{{place_number.start_time}}</p>
-                        {%endif%}
-
-                        {% if place_number.current_time != None %}
-                            <p class="text-center text-white">{{place_number.current_time}}</p>
-                        {%endif%}
-
-                        {% if place_number.session_id != None %}
-                            <a class="stretched-link" 
-                                href="parking_session/{{place_number.session_id}}/"
-                                data-hx-get="{% url 'parking:parking_session_dialog_edit' place_number.session_id %}"
-                                data-hx-target="main"
-                                data-hx-swap="beforeend"
-                                ></a>
-                        {% else %}
-                            <a class="stretched-link"
-                                href="parking_session/"
-                                data-hx-get="{% url 'parking:parking_session_dialog' %}"
-                                data-hx-target="main"
-                                data-hx-swap="beforeend"
-                            > </a>
-                        {% endif %}
-                    {% endif %}
-
-                </div>
-
-                <!-- <button
-                    data-hx-get="{% url 'parking:parking_session_dialog' %}"
-                    data-hx-target="main"
-                    data-hx-swap="beforeend"
-                    type="button"
-                    class="btn btn-primary">Log in</button> -->
-            </div>
+    <div class="col m-auto">
+      <div
+        class="card justify-content-center {% if place_number.status == 'free' %}bg-success{% else %}bg-danger{% endif %}"
+        style="width: 8rem; height: 11rem"
+      >
+        <div class="card-body d-flex flex-column justify-content-center">
+          <h4 class="card-title text-center">№ {{place_number.number}}</h4>
+          {% if user.is_authenticated and place_number.status != "free"%}
+          
+          <p class="card-text text-center text-white">
+            {{place_number.vehicle}}
+          </p>
+          
+          <p class="card-text text-center text-white">
+            {{place_number.start_time}}
+          </p>
+          
+          <div class="d-flex flex-column justify-content-center">
+              <p class="text-center text-white">TIME USE: {{place_number.current_time}}</p>
+              <p class="text-center text-white">COST: {{place_number.current_cost}}</p>
+          </div>
+          
+          {% endif %}
+          
+          {% if place_number.session_id != None %}
+          <a
+              class="stretched-link"
+              href="parking_session/{{place_number.session_id}}/"
+              data-hx-get="{% url 'parking:parking_session_dialog_edit' place_number.session_id %}"
+              data-hx-target="main"
+              data-hx-swap="beforeend"
+          ></a>
+          {% else %}
+          <a
+              class="stretched-link"
+              href="parking_session/"
+              data-hx-get="{% url 'parking:parking_session_dialog'%}?place_id={{place_number.place_id}}&place_number={{place_number.number}}"
+              data-hx-target="main"
+              data-hx-swap="beforeend"
+          >
+          </a>
+          {% endif %}
 
         </div>
-        
-        
-        {% endfor %}
+      </div>
     </div>
-     
+
+    {% endfor %}
+  </div>
 </div>
 
-{% endfor %}
-
-{% endblock %}
+{% endfor %} {% endblock %}

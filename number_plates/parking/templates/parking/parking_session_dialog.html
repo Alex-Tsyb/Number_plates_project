@@ -1,9 +1,27 @@
-<dialog id="htmx-dialog" class="dialog" style="width:50%; min-width: 50%; min-height: 50%;">
-  <div class="container-fluid p-4">
-    <button type="button" class="close-dialog btn-close" aria-label="Close"></button>
-    {% include "parking/parking_session_form.html" %}  
+<dialog
+  id="htmx-dialog"
+  class="dialog rounded-4"
+  style="width: 50%; min-width: 50%; min-height: 50%"
+>
+  <div class="container-fluid">
+    <button
+      type="button"
+      class="close-dialog btn-close position-absolute"
+      aria-label="Close"
+      style="top: 1rem; right: 1rem"
+    ></button>
+
+    <div class="details">
+      <h3>{{ type.capitalize }} parking session</h3>
+      <form
+        action=""
+        method="post"
+        id="htmx-dialog-form"
+        data-hx-post="{% url 'parking:parking_session_dialog' %}"
+        data-hx-swap="outerHTML"
+        >
+        {% include "parking/parking_session_form.html" %}
+      </form>
+    </div>
   </div>
-  <!-- <button type="submit" form="htmx-dialog-form">Log in</button> -->
 </dialog>
-
-
