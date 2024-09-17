@@ -13,10 +13,15 @@
       <label> Place number </label>
       {{ form.place_number }}
     </div>
-    <div class="mb-3">
-      <label> Vehicle </label>
-      {{ form.vehicle }}
-      <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#vehicleModal">Add</button> -->
+    <div class="d-flex flex-row align-items-center gap-3">
+      <div class="mb-3 flex-grow-1">
+        <label> Vehicle </label>
+        {{ form.vehicle }}
+      </div>
+      <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#vehicleModal">Add
+        <a href="{% url 'parking:add_car' %}"></a>
+      </button>
+    
     </div>
 
     <div class="mb-3">
@@ -28,7 +33,7 @@
       {{ form.end_time }}
     </div>
 
-    <div class="mb-3 text-center">
+    <div class="mb-3 text-center d-inline-flex flex-row align-items-baseline gap-3">
       <button class="btn btn-primary" type="submit">Save</button>
       <button class="btn btn-secondary" type="reset ">Reset</button>
     </div>
