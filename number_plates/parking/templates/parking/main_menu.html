@@ -9,12 +9,14 @@
 
     {% if user.is_authenticated %}
         <div class="h1">
-            <h3>Welcome <b>{{ user.username }} </b></h3>
-            <h2><a href="{% url 'users:menu' %}" role="button">Menu</a></h2>
-            <h2><a href="{% url 'users:logout' %}" role="button">Logout</a></h2>
+            <h3 class="text-center">Welcome <b>{{ user.username }} </b></h3>
+            <div class="d-inline-flex flex-row gap-5">
+                <h2><a href="{% url 'users:menu' %}" role="button">Menu</a></h2>
+                <h2><a href="{% url 'users:logout' %}" role="button">Logout</a></h2>
+            </div>
         </div>
     {% else %}
-        <div class="user-menu">
+        <div class="user-menu d-flex flex-row gap-5">
             <p class="m-3">
                 <a href="{% url 'users:login' %}" role="button">Login</a>
             </p>
