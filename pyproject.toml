@@ -17,6 +17,7 @@ tensorflow = "^2.17.0"
 tensorflow-intel = "^2.17.0"
 keras = "^3.5.0"
 django-htmx = "^1.19.0"
+keras-cv = "^0.9.0"
 
 
 [tool.poetry.group.dev.dependencies]
