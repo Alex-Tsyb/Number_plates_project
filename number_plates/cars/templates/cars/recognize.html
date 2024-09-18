@@ -1,0 +1,53 @@
+{% extends 'parking/base.html' %} {% block content %} {% load static %}
+
+<div>
+  <h2 class="text-center">Recognize</h2>
+
+  <div class="row row-cols-auto gap-3 justify-content-center">
+    <div class="card">
+      <!-- <div class="card-body">
+              <h5 class="card-title text-center">Original image</h5>
+              <img src="/media/cars/images_for_recognize/{{filename}}" />
+          </div>   -->
+      <div class="card-body">
+        <h5 class="card-title text-center">Detected license plate</h5>
+        <img
+          src="/media/cars/recognize/{{detected_license_plate_img}}"
+          style="min-width: 100%"
+        />
+        <img
+          src="/media/cars/recognize/{{plate_img}}"
+          style="min-width: 100%"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-body pb-0">
+          <h5 class="card-title text-center">
+            License plate
+          </h5>
+        </div>
+        <div class="card m-2">
+            <div class="card-body">
+                <h5 class="card-title text-center">
+                  {{predict_license_plate}}
+                </h5>
+              </div>
+        </div>
+      </div>
+      <!-- <button type="button" class="btn btn-primary mt-3" style="min-width: 100%;"> -->
+        
+        <a href="{% url 'cars:upload_file' %}" role="button" class="btn btn-primary mt-3" style="min-width: 100%;">Return
+        </a>
+      <!-- </button> -->
+      <div class="card mt-3">
+        <div class="card-body">
+            {% include 'cars/car_form.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

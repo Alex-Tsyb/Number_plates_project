@@ -1,0 +1,31 @@
+<nav class="nav">
+    <ul>
+        <li><a href="{% url 'parking:index' %}" role="button">Головна</a></li>
+        <li><a href="{% url 'tarifs:index' %}" role="button">Тарифи</a></li>
+        <li><a href="{% url 'parking:rules' %}"role="button">Правила</a></li>
+        <li><a href="{% url 'parking:parking_plan' %}" role="button">Схема проїзду</a></li>
+        <li><a href="#" role="button">Контакти</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'cars:upload_file' %}" role="button">Recognize</a></li>
+        {% endif %}
+    </ul>
+
+    {% if user.is_authenticated %}
+        <div class="h1">
+            <h3 class="text-center">Welcome <b>{{ user.username }} </b></h3>
+            <div class="d-inline-flex flex-row gap-5">
+                <h2><a href="{% url 'users:menu' %}" role="button">Menu</a></h2>
+                <h2><a href="{% url 'users:logout' %}" role="button">Logout</a></h2>
+            </div>
+        </div>
+    {% else %}
+        <div class="user-menu d-flex flex-row gap-5">
+            <p class="m-3">
+                <a href="{% url 'users:login' %}" role="button">Login</a>
+            </p>
+            <p class="m-3">
+                <a href="{% url 'users:signup' %}" role="button">Signup</a>
+            </p>
+        </div>
+    {% endif %}
+</nav>

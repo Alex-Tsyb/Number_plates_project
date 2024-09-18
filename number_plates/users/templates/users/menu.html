@@ -1,43 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Parking</title>
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'number_plates_app/style.css' %}">
-    <link rel="stylesheet" href="{% static 'number_plates_app/main.css' %}">
-</head>
-<body>
-    <main class="container"></main>
-        <div class="menu-container">
-            <div class="user-menu">
-                <nav class="nav">
-                    <a href="/" role="button" class="primary">Головна</a>
-                    <h3><strong>Логін:</strong> {{ request.user.username }}</h3>
-                    <h3><strong>Email:</strong> {{ request.user.email }}</h3>
-                    <a href="{% url 'users:password_reset' %}" role="button" class="secondary">Змінити пароль</a>
-                </nav>
-            </div>             
-        </div>
-        <div class="container">
-            <div class="row-home-text">
-                <!-- Відображення балансу -->
-                <h3><strong>Баланс:</strong> ${{ balance }}</h3>
+{% extends "parking/base.html" %} 
 
-                <!-- Відображення історії транзакцій -->
-                <h3><strong>Останні транзакції:</strong></h3>
-                <ul>
-                    {% for transaction in transactions %}
-                        <li>{{ transaction.created_at }} - {{ transaction.transaction_type }} ${{ transaction.amount }}</li>
-                    {% empty %}
-                        <li>Немає транзакцій</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-            
+{% block content %}
+<div class="d-flex flex-row justify-content-around align-items-center">
+    <div>
+        <h3><strong>Логін:</strong> {{ request.user.username }}</h3>
+        <h3><strong>Email:</strong> {{ request.user.email }}</h3>
+    </div>
+    <div>
+        <a href="{% url 'users:password_reset' %}" role="button" class="secondary"
+        >Змінити пароль</a
+      >
+    </div>
+</div>
+<div class="container border">
+    <div class="details p-4">
+        <!-- Відображення балансу -->
+        <h3><strong>Поточний баланс:</strong> {{ balance }} грн</h3>
 
-    </main>
-</body>
-</html>
+        <!-- Відображення історії транзакцій -->
+        <h3><strong>Останні транзакції:</strong></h3>
+        <ul>
+            {% for transaction in transactions %}
+                <li>{{ transaction.created_at }} - {{ transaction.transaction_type }} ${{ transaction.amount }}</li>
+            {% empty %}
+                <li>Немає транзакцій</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

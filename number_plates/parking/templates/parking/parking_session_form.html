@@ -1,0 +1,35 @@
+
+    {% csrf_token %}
+
+    <div class="mb-3 d-none">
+      {{form.session_id}}
+    </div>
+
+    <div class="mb-3">
+      <label> Parking place </label>
+      {{ form.parking_place}}
+    </div>
+    <div class="mb-3">
+      <label> Place number </label>
+      {{ form.place_number }}
+    </div>
+    <div class="d-flex flex-row align-items-center gap-3">
+      <div class="mb-3 flex-grow-1">
+        <label> Vehicle </label>
+        {{ form.vehicle }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label> Start time </label>
+      {{ form.start_time }}
+    </div>
+    <div class="mb-3">
+      <label> End time </label>
+      {{ form.end_time }}
+    </div>
+
+    <div class="mb-3 text-center d-inline-flex flex-row align-items-baseline gap-3">
+      <button class="btn btn-primary" type="submit">Save</button>
+      <button class="btn btn-secondary" type="reset ">Reset</button>
+    </div>

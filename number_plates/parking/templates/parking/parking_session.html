@@ -1,0 +1,14 @@
+{% extends "parking/base.html" %} 
+
+{% block content %}
+
+<div class="details"></div>
+    <h3>{{ type.capitalize }} parking session</h3>
+    <form action="" method="post">
+    
+    {% include "parking/parking_session_form.html" %}
+
+    </form>
+</div>
+
+{% endblock %}
