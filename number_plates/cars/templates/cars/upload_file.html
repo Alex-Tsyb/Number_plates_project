@@ -1,0 +1,18 @@
+{% extends 'parking/base.html' %}
+
+
+{% block content %}
+
+<h2 class="text-center">Create car use Recognize</h2>
+
+<form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Upload</button>
+
+</form>
+
+{% endblock %}
