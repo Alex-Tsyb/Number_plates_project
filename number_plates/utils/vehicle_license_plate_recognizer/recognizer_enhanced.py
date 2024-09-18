@@ -180,5 +180,5 @@ def get_license_plate_vehicle(image_path) -> str:
     except UnidentifiedImageError:
         return None
 
-    _, _, plate_text = recognize(image)
-    return plate_text
+    detected_license_plate_img,  plate_img, plate_text = recognize(image)
+    return detected_license_plate_img, plate_img, plate_text
