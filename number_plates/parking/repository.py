@@ -31,11 +31,17 @@ def calculate_cost(session: Session):
     return min(duration * float(rate.rate_per_hour), float(rate.max_limit))
 
 def get_place_by_id(place_id: int):
-    return Place.objects.get(pk=place_id)
+    try:
+        return Place.objects.get(pk=place_id)
+    except Place.DoesNotExist:
+        return None
 
 
 def get_session_by_id(session_id: int):
-    return Session.objects.get(pk=session_id)
+    try:
+        return Session.objects.get(pk=session_id)
+    except Session.DoesNotExist:
+        return None
 
 
 def get_data_session_by_id_for_form(session_id: int):
