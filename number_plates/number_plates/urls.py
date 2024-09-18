@@ -18,8 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('parking.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls', namespace='users')),
+    path('', include('parking.urls')),
+    path('cars/', include('cars.urls' , namespace='cars')),
+    path('tarifs/', include('parking_rates.urls' , namespace='tarifs')),
+    # path("payment/", include("payment.urls", namespace="payment")),
 ]
 
