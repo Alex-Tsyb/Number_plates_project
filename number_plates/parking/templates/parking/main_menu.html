@@ -5,7 +5,9 @@
         <li><a href="{% url 'parking:rules' %}"role="button">Правила</a></li>
         <li><a href="{% url 'parking:parking_plan' %}" role="button">Схема проїзду</a></li>
         <li><a href="#" role="button">Контакти</a></li>
+        {% if user.is_authenticated %}
         <li><a href="{% url 'cars:upload_file' %}" role="button">Recognize</a></li>
+        {% endif %}
     </ul>
 
     {% if user.is_authenticated %}
